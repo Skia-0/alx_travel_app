@@ -1,0 +1,40 @@
+-- Retrieve all listings with user, property, and booking details
+EXPLAIN ANALYZE
+SELECT 
+    p.id AS property_id,
+    p.name AS property_name,
+    p.location,
+    u.id AS user_id,
+    u.first_name,
+    u.last_name,
+    b.id AS booking_id,
+    b.start_date,
+    b.end_date,
+    pay.id AS payment_id,
+    pay.amount,
+    pay.status
+FROM property p
+JOIN user u 
+    ON p.user_id = u.id
+JOIN booking b 
+    ON b.property_id = p.id
+    AND b.user_id = u.id
+JOIN payment pay 
+    ON pay.booking_id = b.id
+    AND pay.status = 'completed'
+ORDER BY p.id;
+
+-- Optional performance test (after creating indexes)
+EXPLAIN ANALYZE
+SELECT 
+    p.name, u.first_name, b.start_date, pay.amount
+FROM property p
+JOIN booking b 
+    ON p.id = b.property_id
+JOIN user u 
+    ON b.user_id = u.id
+JOIN payment pay 
+    ON pay.booking_id = b.id
+WHERE p.location = 'Accra'
+  AND pay.status = 'completed'
+ORDER BY pay.amount DESC;
