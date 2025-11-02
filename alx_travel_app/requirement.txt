@@ -1,0 +1,8 @@
+Django>=4.2
+djangorestframework>=3.14
+django-environ>=0.9.0
+mysqlclient>=2.1.0
+django-cors-headers>=4.0
+drf-yasg>=1.22.0
+celery>=5.4
+# RabbitMQ is an external service; you don't install it via pip.
